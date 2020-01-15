@@ -115,7 +115,7 @@ public class Controller implements Initializable {
             }
         }));
         nextButton.setOnAction((mouseEvent -> {
-            if(currentGrid < simStateMemorizer.gridPanes.size()){
+            if(currentGrid < simStateMemorizer.gridPanes.size() - 1){
                 currentGrid++;
                 changeGrid(simStateMemorizer);
             }

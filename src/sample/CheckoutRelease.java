@@ -17,7 +17,7 @@ public class CheckoutRelease extends BasicSimEvent<PetrolStation, Checkout> {
         PetrolStation petrolStation = getSimObj();
         Car car = checkout.releaseCheckout();
         petrolStation.checkoutQueue.remove(car);
-        if(car.isTanking){    //jesli car tankowal
+        if(car.isTanking){    //jesli samochod tankowal
             petrolStation.getFuelQueue(car.fuelType).remove(car);
             car.setTankTimeDelta(petrolStation.fuelingTime, simTime());
             String log = simTime() + " :: Kierowca samochodu o ID " + car.ID + " odchodzi od kasy numer " + checkout.ID + " oraz zwalnia dystrybutor o numerze " + car.occupiedDistributor.ID;
@@ -31,7 +31,14 @@ public class CheckoutRelease extends BasicSimEvent<PetrolStation, Checkout> {
             releasePlaceInQueueToCheckout(petrolStation);
 
             if(car.isWashing){
-                new CarWashQueueEntering(petrolStation, 0, car);
+                if(petrolStation.carWashQueue.queue.size() >= petrolStation.carWashQueue.size){
+                    log = simTime() + " :: Samochod o ID " + car.ID + " trafia na straty myjni";
+                    System.out.println(log);
+                    petrolStation.loss.incrementCarWashLoss();
+                    petrolStation.simStateMemorizer.memorizeState(petrolStation, log);
+                }
+                else
+                    new CarWashQueueEntering(petrolStation, 0, car);
             }
 
             if(petrolStation.getFuelQueue(car.fuelType).queue.size() > 0){
@@ -55,14 +62,15 @@ public class CheckoutRelease extends BasicSimEvent<PetrolStation, Checkout> {
 
             releasePlaceInQueueToCheckout(petrolStation);
 
-            if(petrolStation.carWashQueue.queue.size() >= petrolStation.carWashQueue.size){
-                log = simTime() + " :: Samochod o ID " + car.ID + " trafia na straty myjni";
-                System.out.println(log);
-                petrolStation.loss.incrementCarWashLoss();
-                petrolStation.simStateMemorizer.memorizeState(petrolStation, log);
-            }
-            else
-                new CarWashQueueEntering(petrolStation, 0, car);
+//            if(petrolStation.carWashQueue.queue.size() >= petrolStation.carWashQueue.size){
+//                log = simTime() + " :: Samochod o ID " + car.ID + " trafia na straty myjni";
+//                System.out.println(log);
+//                petrolStation.loss.incrementCarWashLoss();
+//                petrolStation.simStateMemorizer.memorizeState(petrolStation, log);
+//            }
+//            else
+//                new CarWashQueueEntering(petrolStation, 0, car);
+            new CarWashQueueEntering(petrolStation, 0, car);
         }
     }
 

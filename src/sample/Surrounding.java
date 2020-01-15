@@ -25,16 +25,18 @@ public class Surrounding {
             s = new Car(index, fuel, random.nextBoolean(), random.nextBoolean());
         }while(!s.isTanking && !s.isWashing);
 
-        switch(fuel.toString()){
-            case "Petrol":
-                petrolFuelingCount++;
-                break;
-            case "LPG":
-                LPGFuelingCount++;
-                break;
-            case "ON":
-                ONFuelingCount++;
-                break;
+        if(s.isTanking){
+            switch(fuel.toString()){
+                case "Petrol":
+                    petrolFuelingCount++;
+                    break;
+                case "LPG":
+                    LPGFuelingCount++;
+                    break;
+                case "ON":
+                    ONFuelingCount++;
+                    break;
+            }
         }
         if(s.isWashing) washedCarsCount++;
 

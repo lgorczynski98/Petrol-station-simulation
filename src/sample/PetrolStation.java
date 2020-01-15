@@ -11,7 +11,7 @@ public class PetrolStation extends BasicSimObj {
 
     static final Fuel[] fuelTypes = {new Petrol(4), new LPG(6), new ON(5)};
 
-    private static final int carsLimit = 50;
+    private static final int carsLimit = 100;
     private static final int petrolQueueSize = 5;
     private static final int LPGQueueSize = 3;
     private static final int ONQueueSize = 4;
